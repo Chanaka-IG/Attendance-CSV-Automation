@@ -16,7 +16,7 @@ function isDate(v: string)     { return RE_DATE_YMD.test(v) || RE_DATE_DMY.test(
 function isTime(v: string)     { return RE_TIME.test(v.trim()) }
 function isEvent(v: string)    { return RE_EVENT.test(v.trim()) }
 function isEmpId(v: string)    { return RE_EMP_ID.test(v.trim()) }
-function isLabel(v: string)    { return LABEL_WORDS.test(v.trim()) }
+function isLabel(v: string)    { return v.trim().split(/[_\s]+/).some(part => LABEL_WORDS.test(part)) }
 
 // ── Header detection ──────────────────────────────────────────────────────────
 

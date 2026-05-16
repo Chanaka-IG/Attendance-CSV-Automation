@@ -30,21 +30,14 @@ function resolveConfig(client: string): ClientConfig {
   const configPath = path.resolve(__dirname, `../../data/config/${client}.config.json`)
   const csvPath    = path.resolve(__dirname, `../../data/clients/${client}.csv`)
 
-  if (fs.existsSync(configPath)) {
-    // Config already exists — use the saved knowledge for this client
-    return loadConfig(configPath)
-  }
-
   if (!fs.existsSync(csvPath)) {
-    throw new Error(`Neither config nor CSV found for client "${client}".\nExpected CSV at: ${csvPath}`)
+    throw new Error(`CSV not found for client "${client}".\nExpected CSV at: ${csvPath}`)
   }
 
-  // No config yet — auto-detect from the CSV and save for future runs
-  console.log(`[Auto-detect] No config found for "${client}" — detecting format from CSV...`)
+  // Always detect from the CSV so config stays in sync with whatever file is present
   const detected = detectConfig(csvPath)
   saveConfig(detected, configPath)
-  console.log(`[Auto-detect] Config saved → ${configPath}`)
-  console.log(`[Auto-detect] Detected: format=${detected.format}, hasHeaders=${detected.hasHeaders}, dateFormat=${detected.dateFormat}`)
+  console.log(`[Auto-detect] format=${detected.format}, hasHeaders=${detected.hasHeaders}, dateFormat=${detected.dateFormat}`)
   return detected
 }
 
