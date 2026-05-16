@@ -73,7 +73,7 @@ export function parseCSV(csvPath: string, config: ClientConfig): AttendanceRecor
     )
   } else {
     rows = parse(raw, {
-      columns: true,
+      columns: (header: string[]) => header.map(h => h.toLowerCase().replace(/\s+/g, '_')),
       skip_empty_lines: true,
       trim: true,
       bom: true,
